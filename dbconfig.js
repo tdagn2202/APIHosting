@@ -1,8 +1,8 @@
 const config = {
     user: 'sa',
     password: 'sa',
-    server: '192.168.2.61',
-    database: 'forAPITesting',
+    server: 'localhost',
+    database: 'accounts',
     options: {
         trustedConnection: true,
         encrypt: true,

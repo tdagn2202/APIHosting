@@ -1,5 +1,5 @@
 {
-  "name": "connect_to_sql", 
+  "name": "connect_to_sql",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -7,6 +7,7 @@
     "start": "nodemon api.js"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "~1.0.1",
     "cors": "2.8.1",
     "express": "~4.0.0",

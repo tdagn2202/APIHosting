@@ -1,7 +1,7 @@
 const dboperation = require('./dpoperations')
 var student = require('./student')
-
-
+var account = require('./account')
+const bcrypt = require('bcrypt');
 //import libraries
 var express = require('express');   //tạo api
 var bodyParser = require('body-parser');    //parse request và response
@@ -71,6 +71,34 @@ router.route('/student').delete((req, res)=> {
     })
 })
 
+router.route('/student/login').post(async (req, res) => {
+    try {
+        let userInsert = { ...req.body };  // Correct 'req' instead of 'request'
+        const result = await dboperation.login(userInsert);  // Await the login operation
+
+        if (result.length > 0) {
+            const account = result[0];  // Get the first user (if any)
+            const match = (req.body.password === (account.password));  // Await bcrypt comparison
+
+            if (match) {
+                res.status(200).json({
+                    message: 'Logged in'
+                });
+            } else {
+                res.status(401).json({
+                    message: 'Login failed: Incorrect password'
+                });
+            }
+        } else {
+            res.status(404).json({
+                message: 'User not found'
+            });
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        res
+
+    }});
 
 //Configure cổng port cho nó kết nối remote hoặc local
 var port = process.env.PORT || 5000;

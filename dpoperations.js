@@ -1,6 +1,7 @@
 var config = require('./dbconfig');
 const sql = require('mssql');
 
+
 const getUsers = async () => {
     try {
         let pool = await sql.connect(config)
@@ -24,7 +25,7 @@ const getUserByID = async (uid) => {
     catch (error) {
         console.log(error);
     }
-}
+} 
 
 
 const insertUser = async (table) => {
@@ -70,6 +71,17 @@ const deleteUser = async (props) => {
 }
 
 
+const login = async (props) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('username', sql.VarChar, props.username)
+            .query('SELECT * FROM account WHERE username = @username');
+        return result.recordset;  // Return the first result set (which is an array of records)
+    } catch (e) {
+        console.log(e);
+    }
+};
 
 
 
@@ -79,5 +91,6 @@ module.exports = {
     getUserByID: getUserByID,
     insertUser: insertUser,
     updateUser: updateUser,
-    deleteUser : deleteUser
+    deleteUser : deleteUser,
+    login: login
 }
