@@ -81,7 +81,7 @@ router.route('/student/login').post(async (req, res) => {
             const match = (req.body.password === (account.password));  // Await bcrypt comparison
 
             if (match) {
-                res.status(200).json({
+                res.status(201).json({
                     message: 'Logged in'
                 });
             } else {
@@ -99,6 +99,49 @@ router.route('/student/login').post(async (req, res) => {
         res
 
     }});
+
+
+// router.route('/student/signup').post((req, res) => {
+//     const userInput = {...req.body}
+//     dboperation.signUp(userInput).then((result) => {
+//         res.status(201).send({
+//             message: 'Signed up'
+//         })
+//     })
+// })
+
+router.route('/student/signup').post((req, res) => {
+    const userInput = { ...req.body };
+    console.log('User input:', userInput);
+    dboperation.signUp(userInput)
+        .then((result) => {
+            if (result) {
+                res.status(201).send({
+                    message: 'Signed up successfully',
+                });
+            } else {
+                res.status(400).send({
+                    message: 'Account creation failed!',
+                });
+            }
+        })
+        .catch((error) => {
+            console.error('Error during signup:', error);
+            res.status(500).send({
+                message: 'An error occurred while creating the account',
+                error: error.message, // Optional: for debugging
+            });
+        });
+});
+
+router.route('/student/dropOut').delete((req, res) => {
+    const negavInput = {...req.body}
+    dboperation.deleteAccount(negavInput).then((result)=> {
+        res.status(201).send({
+            message: 'Bạn đã thành Negav'
+        })
+    })
+})
 
 //Configure cổng port cho nó kết nối remote hoặc local
 var port = process.env.PORT || 5000;

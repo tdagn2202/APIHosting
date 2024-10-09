@@ -5,7 +5,7 @@ const sql = require('mssql');
 const getUsers = async () => {
     try {
         let pool = await sql.connect(config)
-        let query = await pool.request().query('SELECT * FROM student')
+        let query = await pool.request().query('SELECT * FROM account')
         return (await query).recordsets
     } catch (error) {
         console.log(error)
@@ -84,6 +84,31 @@ const login = async (props) => {
 };
 
 
+const signUp = async (table) => {
+    try {
+        let pool = await sql.connect(config)
+        let product = await pool.request()
+            .input('username', sql.VarChar, table.username)
+            .input('password', sql.VarChar, table.password)
+            .query('INSERT INTO account (username, password) VALUES (@username, @password)'); 
+        return product.recordsets
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const deleteAccount = async (props) => {
+    try {
+        let pool = await sql.connect(config)
+        let result = await pool.request()
+        .input('username', sql.VarChar, props.username)
+        .query('DELETE FROM account WHERE username = @username');
+        return result.recordsets
+    } catch (error){
+        console.log(error);
+    }
+}
+
 
 //xuất khẩu lao động
 module.exports = {
@@ -92,5 +117,7 @@ module.exports = {
     insertUser: insertUser,
     updateUser: updateUser,
     deleteUser : deleteUser,
-    login: login
+    login: login,
+    signUp: signUp,
+    deleteAccount: deleteAccount
 }

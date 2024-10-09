@@ -1,7 +1,7 @@
 const config = {
     user: 'sa',
     password: 'sa',
-    server: 'localhost',
+    server: '10.13.128.28',
     database: 'accounts',
     options: {
         trustedConnection: true,
