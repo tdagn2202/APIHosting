@@ -78,7 +78,7 @@ router.route('/student/login').post(async (req, res) => {
 
         if (result.length > 0) {
             const account = result[0];  // Get the first user (if any)
-            const match = (req.body.password === (account.password));  // Await bcrypt comparison
+            const match = (req.body.password === (account.Password));  // Await bcrypt comparison
 
             if (match) {
                 res.status(201).json({
@@ -139,6 +139,16 @@ router.route('/student/dropOut').delete((req, res) => {
     dboperation.deleteAccount(negavInput).then((result)=> {
         res.status(201).send({
             message: 'Bạn đã thành Negav'
+        })
+    })
+})
+
+router.route('/student/getSchedule').post((req, res) => {
+    const userInput = {...req.body}
+    dboperation.getSchedule(userInput).then((result)=> {
+        console.log(result)
+        res.status(201).send({
+            message: 'Completed'
         })
     })
 })

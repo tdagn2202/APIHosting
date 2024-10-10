@@ -1,8 +1,9 @@
+var IP = require('./ipAdress')
 const config = {
     user: 'sa',
     password: 'sa',
-    server: '10.13.128.28',
-    database: 'accounts',
+    server: IP.ipAddress,
+    database: 'Student_Management',
     options: {
         trustedConnection: true,
         encrypt: true,
